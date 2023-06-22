@@ -56,11 +56,22 @@ export default class View {
     this.$.modal.classList.add("hidden");
     // this.$.modalText.innerText = message;
   }
-
+  closeAll() {
+    this.closeModal();
+    this.#closeMenu();
+  }
   clearMoves() {
     this.$$.squares.forEach((square) => {
       square.replaceChildren();
     });
+  }
+
+  #closeMenu() {
+    this.$.menuItems.classList.add("hidden");
+    this.$.menuBtn.classList.remove("border");
+    const icon = this.$.menuBtn.querySelector("i");
+    icon.classList.add("fa-chevron-down");
+    icon.classList.remove("fa-chevron-up");
   }
 
   #toggleMenu() {
