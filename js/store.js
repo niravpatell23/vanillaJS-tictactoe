@@ -1,16 +1,43 @@
-import View from "./view";
-
+const initialValue = {
+  moves: [],
+};
 export default class Store {
-  $state = { moves: [] };
+  #state = initialValue;
 
-  constructor() {}
+  constructor(player) {
+    this.player = player;
+  }
+
+  get game() {
+    const state = this.#getState();
+
+    const currentPlayer = this.player[state.moves.length % 2];
+
+    return {
+      moves: state.moves,
+      currentPlayer,
+    };
+  }
+
+  playerMove(squareId) {
+    const state = this.#getState();
+
+    const stateClone = structuredClone(state);
+
+    stateClone.moves.push({
+      squareId,
+      player: this.game.currentPlayer,
+    });
+
+    this.#saveState(stateClone);
+  }
 
   #getState() {
     return this.#state;
   }
 
-  #saveState() {
-    const prevState = this.#getState;
+  #saveState(stateOrFn) {
+    const prevState = this.#getState();
 
     let newState;
 

@@ -38,7 +38,7 @@ export default class View {
 
   bindPlayerMoveEvent(handler) {
     this.$$.squares.forEach((square) => {
-      square.addEventListener("click", handler);
+      square.addEventListener("click", () => handler(square));
     });
   }
 
@@ -57,24 +57,26 @@ export default class View {
 
   handlePlayerMove(squareEl, player) {
     const icon = document.createElement("i");
-    icon.classList.add("fa-solid", player === 1 ? "fa-x" : "fa-o");
-    icon.classList.add(player === 1 ? "yellow" : "turquoise");
+    icon.classList.add("fa-solid", player.iconClass, player.colorClass);
 
     squareEl.replaceChildren(icon);
   }
 
-  setTurn(player) {
+  setTurn(player, opponent) {
     const icon = document.createElement("i");
     const label = document.createElement("p");
 
-    this.$.turn.classList.add(player === 1 ? "yellow" : "turquoise");
-    this.$.turn.classList.remove(player === 1 ? "turquoise" : "yellow");
-
+    // this.$.turn.classList.add(player.colorClass);
+    // this.$.turn.classList.remove(opponent.colorClass);
     // icon.classList.add(player === 1 ? "fa-solid" : "fa-solid");
+
+    icon.classList.add("fa-solid", player.iconClass, player.colorClass);
+
+    label.classList.add(player.colorClass);
+
     icon.classList.add("fa-solid", player === 1 ? "fa-x" : "fa-o");
 
-    label.innerText =
-      player === 1 ? "Player 1 you are up!" : "Player 2 you are up!";
+    label.innerText = `${player.name} you are up!`;
 
     this.$.turn.replaceChildren(icon, label);
   }

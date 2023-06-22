@@ -167,9 +167,26 @@ const App = {
 
 // window.addEventListener("load", () => App.init());
 
+const players = [
+  {
+    id: 1,
+    name: "Player 1",
+    iconClass: "fa-x",
+    colorClass: "turquoise",
+  },
+  {
+    id: 2,
+    name: "Player 2",
+    iconClass: "fa-o",
+    colorClass: "yellow",
+  },
+];
+
 function init() {
   const view = new View();
-  const store = new Store();
+  const store = new Store(players);
+
+  // console.log(store.game);
 
   view.bindGameResetEvent((event) => {
     console.log("reset");
@@ -181,9 +198,21 @@ function init() {
     console.log(event);
   });
 
-  view.bindPlayerMoveEvent((event) => {
-    view.setTurn(2);
-    view.handlePlayerMove(event.target, 1);
+  view.bindPlayerMoveEvent((square) => {
+    const existingMove = store.game.moves.find(
+      (move) => move.squareId === +square.id
+    );
+    if (existingMove) {
+      return;
+    }
+    // place an icon on the current player in a square
+    view.handlePlayerMove(square, store.game.currentPlayer);
+
+    //  Advance to the next state by pushing a move to the moves array
+    store.playerMove(+square.id);
+
+    // set the next [;ayers turn indicator
+    view.setTurn(store.game.currentPlayer);
     console.log("player moves");
   });
 
