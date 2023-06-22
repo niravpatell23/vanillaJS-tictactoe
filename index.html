@@ -13,14 +13,14 @@
   <body>
     <main>
       <div class="grid">
-        <div class="turn" data-id="turn">
+        <div class="turn yellow" data-id="turn">
           <i class="fa-solid fa-x"></i>
-          <p data-id="turn-text turquoise">Player 1, you're up!</p>
+          <p data-id="turn-text ">Player 1, you're up!</p>
         </div>
 
         <!-- Dropdown menu -->
         <div class="menu" data-id="menu">
-          <button class="menu-btn">
+          <button class="menu-btn" data-id="menu-btn">
             Actions
             <i class="fa-solid fa-chevron-down"></i>
           </button>
@@ -81,6 +81,7 @@
       </div>
     </div>
 
-    <script async src="js/app.js"></script>
+    <script src="js/app.js" type="module"></script>
+    <!-- <script async src="js/view.js"></script> -->
   </body>
 </html>

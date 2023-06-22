@@ -6,6 +6,10 @@
 //   menuItems.classList.toggle("hidden");
 // });
 
+// import Store from "./store.js";
+import Store from "./store.js";
+import View from "./view.js";
+
 const App = {
   $: {
     menu: document.querySelector('[data-id="menu"]'),
@@ -30,7 +34,7 @@ const App = {
     const p2moves = moves
       .filter((move) => move.playerId === 2)
       .map((move) => +move.squareId);
-    console.log(p1moves);
+    // console.log(p1moves);
 
     const winningPatterns = [
       [1, 2, 3],
@@ -159,6 +163,31 @@ const App = {
     });
   },
 };
-window.addEventListener("load", App.init);
+// window.addEventListener("load", App.init);
 
 // window.addEventListener("load", () => App.init());
+
+function init() {
+  const view = new View();
+  const store = new Store();
+
+  view.bindGameResetEvent((event) => {
+    console.log("reset");
+    console.log(event);
+  });
+
+  view.bindNewRoundEvent((event) => {
+    console.log("new round");
+    console.log(event);
+  });
+
+  view.bindPlayerMoveEvent((event) => {
+    view.setTurn(2);
+    view.handlePlayerMove(event.target, 1);
+    console.log("player moves");
+  });
+
+  // console.log(view.$.turn);
+}
+
+window.addEventListener("load", init);
