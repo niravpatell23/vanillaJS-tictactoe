@@ -189,8 +189,11 @@ function init() {
   // console.log(store.game);
 
   view.bindGameResetEvent((event) => {
-    console.log("reset");
-    console.log(event);
+    view.closeModal();
+    store.reset();
+    view.clearMoves();
+
+    view.setTurn(store.game.currentPlayer);
   });
 
   view.bindNewRoundEvent((event) => {
@@ -211,9 +214,17 @@ function init() {
     //  Advance to the next state by pushing a move to the moves array
     store.playerMove(+square.id);
 
+    if (store.game.status.isCompleted) {
+      view.openModal(
+        store.game.status.winner
+          ? `${store.game.status.winner.name} wins`
+          : "Tie!"
+      );
+
+      return;
+    }
     // set the next [;ayers turn indicator
     view.setTurn(store.game.currentPlayer);
-    console.log("player moves");
   });
 
   // console.log(view.$.turn);
