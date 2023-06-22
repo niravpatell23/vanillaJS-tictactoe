@@ -17,6 +17,12 @@ export default class View {
 
     this.$$.squares = this.#qsAll('[data-id="square"]');
 
+    // scoreboard
+
+    this.$.p1Wins = this.#qs('[data-id="p1-wins"]');
+    this.$.p2Wins = this.#qs('[data-id="p2-wins"]');
+    this.$.ties = this.#qs('[data-id="ties"]');
+
     // UI only
 
     this.$.menuBtn.addEventListener("click", (event) => {
@@ -46,6 +52,12 @@ export default class View {
   /**
    * DOM helper methods
    */
+
+  updateScoreBoard(p1Wins, p2Wins, ties) {
+    this.$.p1Wins.innerText = `${p1Wins} wins`;
+    this.$.p2Wins.innerText = `${p2Wins} wins`;
+    this.$.ties.innerText = `${ties} wins`;
+  }
 
   openModal(message) {
     this.$.modal.classList.remove("hidden");

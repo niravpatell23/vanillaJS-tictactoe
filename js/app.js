@@ -189,16 +189,30 @@ function init() {
   // console.log(store.game);
 
   view.bindGameResetEvent((event) => {
+    // store.newRound();
     view.closeAll();
     store.reset();
     view.clearMoves();
 
     view.setTurn(store.game.currentPlayer);
+
+    view.updateScoreBoard(
+      store.stats.playerWithStats[0].wins,
+      store.stats.playerWithStats[1].wins,
+      store.stats.ties
+    );
   });
 
   view.bindNewRoundEvent((event) => {
-    console.log("new round");
-    console.log(event);
+    store.newRound();
+    view.closeAll();
+    view.clearMoves();
+    view.setTurn(store.game.currentPlayer);
+    view.updateScoreBoard(
+      store.stats.playerWithStats[0].wins,
+      store.stats.playerWithStats[1].wins,
+      store.stats.ties
+    );
   });
 
   view.bindPlayerMoveEvent((square) => {
