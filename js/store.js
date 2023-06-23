@@ -6,9 +6,10 @@ const initialValue = {
   },
 };
 export default class Store {
-  #state = initialValue;
+  //   #state = initialValue;
 
-  constructor(players) {
+  constructor(key, players) {
+    this.storageKey = key;
     this.players = players;
   }
 
@@ -107,7 +108,11 @@ export default class Store {
   }
 
   #getState() {
-    return this.#state;
+    const item = window.localStorage.getItem(this.storageKey);
+
+    return item ? JSON.parse(item) : initialValue;
+
+    // return this.#state;
   }
 
   #saveState(stateOrFn) {
@@ -126,6 +131,7 @@ export default class Store {
       default:
         throw new Error("invalid arg passed to saveState");
     }
-    this.#state = newState;
+    window.localStorage.setItem(this.storageKey, JSON.stringify(newState));
+    // this.#state = newState;
   }
 }
