@@ -1,12 +1,3 @@
-// const menu = document.querySelector(".menu");
-
-// const menuItems = menu.querySelector(".items");
-
-// menu.addEventListener("click", (event) => {
-//   menuItems.classList.toggle("hidden");
-// });
-
-// import Store from "./store.js";
 import Store from "./store.js";
 import View from "./view.js";
 
@@ -163,9 +154,6 @@ const App = {
     });
   },
 };
-// window.addEventListener("load", App.init);
-
-// window.addEventListener("load", () => App.init());
 
 const players = [
   {
@@ -188,36 +176,40 @@ function init() {
 
   // console.log(store.game);
 
-  function initView() {
-    view.closeAll();
+  // function initView() {
+  //   view.closeAll();
 
-    view.clearMoves();
-    view.setTurn(store.game.currentPlayer);
-    view.updateScoreBoard(
-      store.stats.playerWithStats[0].wins,
-      store.stats.playerWithStats[1].wins,
-      store.stats.ties
-    );
-    view.initializeMoves(store.game.moves);
-  }
+  //   view.clearMoves();
+  //   view.setTurn(store.game.currentPlayer);
+  //   view.updateScoreBoard(
+  //     store.stats.playerWithStats[0].wins,
+  //     store.stats.playerWithStats[1].wins,
+  //     store.stats.ties
+  //   );
+  //   view.initializeMoves(store.game.moves);
+  // }
 
-  window.addEventListener("storage", () => {
-    console.log("State changed from another tab");
-    initView();
+  //  Current ta state change
+  store.addEventListener("statechange", () => {
+    view.render(store.game, store.stats);
   });
 
-  initView();
+  //  A different ta state change
+  window.addEventListener("storage", () => {
+    console.log("State changed from another tab");
+    // initView();
+    view.render(store.game, store.stats);
+  });
+
+  //  first load
+  view.render(store.game, store.stats);
 
   view.bindGameResetEvent((event) => {
-    // store.newRound();
-
     store.reset();
-    initView();
   });
 
   view.bindNewRoundEvent((event) => {
     store.newRound();
-    initView();
   });
 
   view.bindPlayerMoveEvent((square) => {
@@ -227,23 +219,24 @@ function init() {
     if (existingMove) {
       return;
     }
-    // place an icon on the current player in a square
-    view.handlePlayerMove(square, store.game.currentPlayer);
-
-    //  Advance to the next state by pushing a move to the moves array
     store.playerMove(+square.id);
 
-    if (store.game.status.isCompleted) {
-      view.openModal(
-        store.game.status.winner
-          ? `${store.game.status.winner.name} wins`
-          : "Tie!"
-      );
+    // place an icon on the current player in a square
+    // view.handlePlayerMove(square, store.game.currentPlayer);
 
-      return;
-    }
-    // set the next [;ayers turn indicator
-    view.setTurn(store.game.currentPlayer);
+    //  Advance to the next state by pushing a move to the moves array
+
+    // if (store.game.status.isCompleted) {
+    //   view.openModal(
+    //     store.game.status.winner
+    //       ? `${store.game.status.winner.name} wins`
+    //       : "Tie!"
+    //   );
+
+    //   return;
+    // }
+    // // set the next [;ayers turn indicator
+    // view.setTurn(store.game.currentPlayer);
   });
 
   // console.log(view.$.turn);
