@@ -15,7 +15,7 @@ export default class View {
     this.$.modalBtn = this.#qs('[data-id="modal-btn"]');
     this.$.turn = this.#qs('[data-id="turn"]');
 
-    this.$.grid = this.#qs('data-id="grid"');
+    this.$.grid = this.#qs('[data-id="grid"]');
     this.$$.squares = this.#qsAll('[data-id="square"]');
 
     // scoreboard
